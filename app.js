@@ -5,8 +5,11 @@ console.log("starting poly-server")
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
+var servers = []
+servers.push({name:"zzz", address:"localhost", port:123123, description:"ala ma kota"})
 
 app.get("/", (req, res) => res.type('html').send(html));
+app.get("/polyspear/servers", (req, res) => res.type('json').send(servers));
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
