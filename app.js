@@ -1,15 +1,26 @@
 
 console.log("starting poly-server")
 
+const _ = require("lodash");
 
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
-var servers = []
-servers.push({name:"zzz", address:"localhost", port:123123, description:"ala ma kota"})
+
+let servers = []
+servers.push({server_name:"zzz", address:"localhost", port:123123, description:"ala ma kota"})
+
+app.use(express.json());
 
 app.get("/", (req, res) => res.type('html').send(html));
 app.get("/polyspear/servers", (req, res) => res.type('json').send(servers));
+app.post("/polyspear/servers", (req, res) => {
+  console.log("method: " + req.method)
+  console.log("body: " + req.body)
+  let new_server = _.pick(req.body, ["server_name", "address", "port", "description"]);
+  servers.push(new_server)
+  res.type('json').send({message:"OK"})
+});
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
